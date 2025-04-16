@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="http://example.com/minimalorder"
+                  targetNamespace="http://example.com/minimalorder">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://example.com/minimalorder"
+                elementFormDefault="qualified">
+
+      <xsd:element name="ElementWithAnonymousTypeAndSequence">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="fieldB" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="fieldA" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="fieldC" type="xsd:string" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:complexType name="NamedComplexType">
+        <xsd:sequence>
+          <xsd:element name="fieldY" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="fieldX" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:element name="ElementWithNamedType" type="tns:NamedComplexType"/>
+
+      <xsd:element name="TestOrderResponse">
+         <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element name="status" type="xsd:string"/>
+           </xsd:sequence>
+         </xsd:complexType>
+       </xsd:element>
+
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="TestOrderRequestAnonymous">
+    <wsdl:part name="parameters" element="tns:ElementWithAnonymousTypeAndSequence"/>
+  </wsdl:message>
+   <wsdl:message name="TestOrderRequestNamed">
+     <wsdl:part name="parameters" element="tns:ElementWithNamedType"/>
+   </wsdl:message>
+  <wsdl:message name="TestOrderResponse">
+    <wsdl:part name="parameters" element="tns:TestOrderResponse"/>
+  </wsdl:message>
+
+  <wsdl:portType name="MinimalOrderPortType">
+    <wsdl:operation name="testOrderAnonymous">
+      <wsdl:input message="tns:TestOrderRequestAnonymous"/>
+      <wsdl:output message="tns:TestOrderResponse"/>
+    </wsdl:operation>
+     <wsdl:operation name="testOrderNamed">
+       <wsdl:input message="tns:TestOrderRequestNamed"/>
+       <wsdl:output message="tns:TestOrderResponse"/>
+     </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="MinimalOrderBinding" type="tns:MinimalOrderPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="testOrderAnonymous">
+      <soap:operation soapAction="urn:testOrderAnonymous"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+    </wsdl:operation>
+     <wsdl:operation name="testOrderNamed">
+       <soap:operation soapAction="urn:testOrderNamed"/>
+       <wsdl:input><soap:body use="literal"/></wsdl:input>
+       <wsdl:output><soap:body use="literal"/></wsdl:output>
+     </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="MinimalOrderService">
+    <wsdl:port name="MinimalOrderPort" binding="tns:MinimalOrderBinding">
+      <soap:address location="http://localhost:8080/minimalorderservice"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>
