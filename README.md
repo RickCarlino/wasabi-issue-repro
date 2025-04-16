@@ -44,7 +44,38 @@ The repository contains:
 
 - Savon version: ~> 2.15.1
 - Wasabi version: ~> 5.1.0
-- Ruby version: [Filled in when script is run]
+- Ruby version: ruby 3.4.2 (2025-02-15 revision d2930f8e7a) +PRISM [x86_64-linux]
+
+```
+Ruby version: 3.4.2
+Savon version: 2.15.1
+Wasabi version: 5.1.0
+-------------------------------------
+
+Inspecting parsed types hash for namespace: http://example.com/minimalorder
+Namespace found. Checking specific type/element definitions...
+
+[TEST CASE 1: Element with Anonymous Type + Sequence]
+Checking for definition of element: 'ElementWithAnonymousTypeAndSequence'
+ -> Definition Found.
+ -> Has :order! key? true
+ -> Value of :order!: ["fieldB", "fieldA", "fieldC"]
+ -> UNEXPECTED (based on bug): :order! key is present.
+
+[TEST CASE 2: Named Complex Type + Sequence (Control)]
+Checking for definition of type: 'NamedComplexType'
+ -> Definition Found.
+ -> Has :order! key? true
+ -> Value of :order!: ["fieldY", "fieldX"]
+ -> CORRECT: :order! key is present with expected value.
+
+[TEST CASE 3: Element referencing Named Type (Info)]
+Checking for definition of element: 'ElementWithNamedType'
+ -> ERROR: Definition NOT found for 'ElementWithNamedType'!
+
+-------------------------------------
+Script finished.
+```
 
 ## Related Notes
 
